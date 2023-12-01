@@ -8,7 +8,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaView>
-        <Text preset="headingLarge" italic>
+        <Text preset="headingLarge" italic color="errorLight">
           Hello World
         </Text>
         <Button title="Entrar" />

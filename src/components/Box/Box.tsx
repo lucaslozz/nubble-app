@@ -19,8 +19,11 @@ import {
   TouchableOpacity,
   TouchableOpacityProps as RNTouchableOpacityProps,
 } from 'react-native';
+import {ComponentProps} from 'react';
 
 export const Box = createBox<Theme>();
+
+export type BoxProps = ComponentProps<typeof Box>;
 
 export type TouchableOpacityBoxProps = RNTouchableOpacityProps &
   SpacingShorthandProps<Theme> &
