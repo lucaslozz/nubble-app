@@ -17,8 +17,8 @@ function App() {
             marginBottom="s14">
             Hello World
           </Text>
-          <Button title="Entrar" marginBottom="s16" />
-          <Button title="Entrar" preset="outline" />
+          <Button title="Entrar" disabled marginBottom="s16" />
+          <Button title="Entrar" preset="outline" loading />
         </Box>
       </SafeAreaView>
     </ThemeProvider>
