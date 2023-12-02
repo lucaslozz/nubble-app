@@ -22,7 +22,7 @@ export function Button({title, loading, ...rest}: ButtonProps) {
       {loading ? (
         <ActivityIndicator />
       ) : (
-        <Text preset="paragraphMedium" bold style={{color: '#fff'}}>
+        <Text preset="paragraphMedium" style={{color: '#fff'}}>
           {title}
         </Text>
       )}
