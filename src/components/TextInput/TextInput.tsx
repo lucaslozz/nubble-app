@@ -46,9 +46,9 @@ export function TextInput({
         <Box {...$textInputContainer}>
           <RNTextInput
             ref={inputRef}
-            placeholder={colors.gray2}
             style={$textInputStyle}
             {...rest}
+            placeholderTextColor={colors.gray2}
           />
           {RightComponent && (
             <Box ml="s16" justifyContent="center">
