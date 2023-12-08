@@ -6,12 +6,18 @@ interface ContainerProps {
 }
 
 export function ViewContainer({children, backgroundColor}: ContainerProps) {
-  return <View style={{backgroundColor}}>{children}</View>;
+  return <View style={{backgroundColor, flex: 1}}>{children}</View>;
 }
 
 export function ScrollViewContainer({
   children,
   backgroundColor,
 }: ContainerProps) {
-  return <ScrollView style={{backgroundColor}}>{children}</ScrollView>;
+  return (
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      style={{backgroundColor, flex: 1}}>
+      {children}
+    </ScrollView>
+  );
 }
