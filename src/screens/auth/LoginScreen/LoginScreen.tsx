@@ -5,15 +5,17 @@ import {Button} from '../../../components/Button/Button';
 import {Screen} from '../../../components/Screen/Screen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../routes/Routes';
+import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 
-type ScreenNavigationProps = NativeStackScreenProps<
-  RootStackParamList,
-  'LoginScreen'
->;
+type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
 
-export function LoginScreen({navigation}: ScreenNavigationProps) {
+export function LoginScreen({navigation}: ScreenProps) {
   function navigateToSignUpScreen() {
     navigation.navigate('SignUpScreen');
+  }
+
+  function navigateToForgotPasswordScreen() {
+    navigation.navigate('ForgotPasswordScreen');
   }
   return (
     <Screen>
@@ -30,15 +32,17 @@ export function LoginScreen({navigation}: ScreenNavigationProps) {
         boxProps={{mb: 's20'}}
       />
 
-      <TextInput
-        errorMessage="Mensagem de erro"
-        label="Senha"
+      <PasswordInput
         placeholder="Digite a sua senha"
-        RightComponent={<Icon name="eyeOn" color="gray2" />}
+        label="Senha"
         boxProps={{mb: 's20'}}
       />
 
-      <Text preset="paragraphSmall" bold color="primary">
+      <Text
+        preset="paragraphSmall"
+        bold
+        color="primary"
+        onPress={navigateToForgotPasswordScreen}>
         Esqueci minha senha
       </Text>
       <Button title="Entrar" mt="s48" />
