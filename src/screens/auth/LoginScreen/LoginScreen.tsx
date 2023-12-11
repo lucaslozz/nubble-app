@@ -7,6 +7,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../../routes/Routes';
 import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
 import {useForm, Controller} from 'react-hook-form';
+import {FormTextInput} from '../../../components/Form/FormTextInput';
+import {FormPasswordTextInput} from '../../../components/Form/FormPasswordTextInput';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
 type LoginFormType = {
@@ -37,40 +39,22 @@ export function LoginScreen({navigation}: ScreenProps) {
         Digite seu e-mail e senha para entrar
       </Text>
 
-      <Controller
+      <FormTextInput
         control={control}
         name="email"
-        rules={{required: 'Email é obrigatorio'}}
-        render={({field, fieldState}) => {
-          return (
-            <TextInput
-              label="Email"
-              value={field.value}
-              errorMessage={fieldState.error?.message}
-              onChangeText={field.onChange}
-              placeholder="Digite o seu email"
-              boxProps={{mb: 's20'}}
-            />
-          );
-        }}
+        rules={{required: 'O email é obrigatorio'}}
+        label="Email"
+        placeholder="Digite o seu email"
+        boxProps={{mb: 's20'}}
       />
 
-      <Controller
+      <FormPasswordTextInput
         control={control}
         name="password"
-        rules={{required: 'Senha é obrigatoria'}}
-        render={({field, fieldState}) => {
-          return (
-            <PasswordInput
-              value={field.value}
-              errorMessage={fieldState.error?.message}
-              onChangeText={field.onChange}
-              placeholder="Digite a sua senha"
-              label="Senha"
-              boxProps={{mb: 's20'}}
-            />
-          );
-        }}
+        rules={{required: 'A senha é obrigatorio'}}
+        placeholder="Digite a sua senha"
+        label="Senha"
+        boxProps={{mb: 's20'}}
       />
 
       <Text
@@ -84,7 +68,7 @@ export function LoginScreen({navigation}: ScreenProps) {
         title="Entrar"
         mt="s48"
         onPress={handleSubmit(submitForm)}
-        disabled={!formState.isValid}
+        // disabled={!formState.isValid}
       />
       <Button
         title="Criar uma conta"
