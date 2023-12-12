@@ -1,14 +1,17 @@
 import {useForm} from 'react-hook-form';
-import {Button} from '../../../components/Button/Button';
+
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Screen} from '../../../components/Screen/Screen';
-import {Text} from '../../../components/Text/Text';
+
 import {RootStackParamList} from '../../../routes/Routes';
-import {Alert} from 'react-native';
+import {
+  Text,
+  Screen,
+  Button,
+  FormTextInput,
+  FormPasswordTextInput,
+} from '@components';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {LoginSchema, loginSchema} from './loginSchema';
-import {FormTextInput} from '../../../components/Form/FormTextInput';
-import {FormPasswordTextInput} from '../../../components/Form/FormPasswordTextInput';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
 export function LoginScreen({navigation}: ScreenProps) {

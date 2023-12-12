@@ -1,13 +1,17 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {Button} from '../../../components/Button/Button';
-import {Screen} from '../../../components/Screen/Screen';
-import {Text} from '../../../components/Text/Text';
-import {RootStackParamList} from '../../../routes/Routes';
-import {useResetNavigationSuccess} from '../../../hooks/useResetNavigationSuccess/useResetNavigationSuccess';
+
+import {RootStackParamList} from '@routes';
+import {useResetNavigationSuccess} from '@hooks';
 import {useForm} from 'react-hook-form';
-import {FormTextInput} from '../../../components/Form/FormTextInput';
-import {FormPasswordTextInput} from '../../../components/Form/FormPasswordTextInput';
+
 import {SignUpSchemaType} from './signUpSchema';
+import {
+  Button,
+  FormPasswordTextInput,
+  FormTextInput,
+  Screen,
+  Text,
+} from '@components';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpScreen'>;
 

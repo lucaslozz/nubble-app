@@ -1,4 +1,3 @@
-import {Pressable} from 'react-native';
 import {ArrowLeftIcon} from '../../assets/icons/ArrowLeftIcon';
 import {ArrowRightIcon} from '../../assets/icons/ArrowRightIcon';
 import {BellIcon} from '../../assets/icons/BellIcon';
@@ -26,12 +25,13 @@ import {ProfileIcon} from '../../assets/icons/ProfileIcon';
 import {SearchIcon} from '../../assets/icons/SearchIcon';
 import {SettingsIcon} from '../../assets/icons/SettingsIcon';
 import {TrashIcon} from '../../assets/icons/TrashIcon';
-import {useAppTheme} from '../../hooks/useAppTheme/useAppTheme';
-
-import {ThemeColors} from '../../theme/theme';
+import {MessageRoundLightIcon} from '../../assets/icons/MessageRoundLightIcon';
 import {CheckRoundIcon} from '../../assets/icons/CheckRoundIcon';
 import {MessageRoundIcon} from '../../assets/icons/MessageRoundIcon';
-import {MessageRoundLightIcon} from '../../assets/icons/MessageRoundLightIcon';
+
+import {useAppTheme} from '@hooks';
+import {ThemeColors} from '@theme';
+import {Pressable} from 'react-native';
 
 export interface IconBase {
   size?: number;
