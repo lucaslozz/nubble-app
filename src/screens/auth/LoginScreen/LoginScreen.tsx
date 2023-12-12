@@ -1,38 +1,39 @@
-import {Text} from '../../../components/Text/Text';
-import {TextInput} from '../../../components/TextInput/TextInput';
-import {Icon} from '../../../components/Icon/Icon';
+import {useForm} from 'react-hook-form';
 import {Button} from '../../../components/Button/Button';
-import {Screen} from '../../../components/Screen/Screen';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Screen} from '../../../components/Screen/Screen';
+import {Text} from '../../../components/Text/Text';
 import {RootStackParamList} from '../../../routes/Routes';
-import {PasswordInput} from '../../../components/PasswordInput/PasswordInput';
-import {useForm, Controller} from 'react-hook-form';
+import {Alert} from 'react-native';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {LoginSchema, loginSchema} from './loginSchema';
 import {FormTextInput} from '../../../components/Form/FormTextInput';
 import {FormPasswordTextInput} from '../../../components/Form/FormPasswordTextInput';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>;
-type LoginFormType = {
-  email: string;
-  password: string;
-};
 export function LoginScreen({navigation}: ScreenProps) {
-  const {control, formState, handleSubmit} = useForm<LoginFormType>({
-    defaultValues: {email: '', password: ''},
+  const {control, formState, handleSubmit} = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
     mode: 'onChange',
   });
+
+  function submitForm({email, password}: LoginSchema) {
+    console.log(email, password);
+  }
 
   function navigateToSignUpScreen() {
     navigation.navigate('SignUpScreen');
   }
-
   function navigateToForgotPasswordScreen() {
     navigation.navigate('ForgotPasswordScreen');
   }
-
-  function submitForm({email, password}: LoginFormType) {}
   return (
-    <Screen>
-      <Text preset="headingLarge" mb="s8">
+    <Screen scrollable>
+      <Text marginBottom="s8" preset="headingLarge">
         Olá
       </Text>
       <Text preset="paragraphLarge" mb="s40">
@@ -42,39 +43,38 @@ export function LoginScreen({navigation}: ScreenProps) {
       <FormTextInput
         control={control}
         name="email"
-        rules={{required: 'O email é obrigatorio'}}
-        label="Email"
-        placeholder="Digite o seu email"
+        keyboardType="email-address"
+        label="E-mail"
+        placeholder="Digite seu e-mail"
         boxProps={{mb: 's20'}}
       />
 
       <FormPasswordTextInput
         control={control}
         name="password"
-        rules={{required: 'A senha é obrigatorio'}}
-        placeholder="Digite a sua senha"
         label="Senha"
+        placeholder="Digite sua senha"
         boxProps={{mb: 's20'}}
       />
 
       <Text
-        preset="paragraphSmall"
-        bold
+        onPress={navigateToForgotPasswordScreen}
         color="primary"
-        onPress={navigateToForgotPasswordScreen}>
+        preset="paragraphSmall"
+        bold>
         Esqueci minha senha
       </Text>
       <Button
-        title="Entrar"
-        mt="s48"
+        disabled={!formState.isValid}
         onPress={handleSubmit(submitForm)}
-        // disabled={!formState.isValid}
+        marginTop="s48"
+        title="Entrar"
       />
       <Button
-        title="Criar uma conta"
-        mt="s12"
-        preset="outline"
         onPress={navigateToSignUpScreen}
+        preset="outline"
+        marginTop="s12"
+        title="Criar uma conta"
       />
     </Screen>
   );
