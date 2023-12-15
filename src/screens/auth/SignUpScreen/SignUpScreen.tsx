@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useForm} from 'react-hook-form';
 
@@ -15,6 +17,7 @@ import {SignUpSchemaType} from './signUpSchema';
 
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpScreen'>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function SignUpScreen({navigation}: ScreenProps) {
   const {control, handleSubmit} = useForm<SignUpSchemaType>({
     mode: 'onChange',
@@ -24,11 +27,11 @@ export function SignUpScreen({navigation}: ScreenProps) {
   const {reset} = useResetNavigationSuccess();
   function submitForm(formValues: SignUpSchemaType) {
     console.log({...formValues});
-    // reset({
-    //   title: 'Sua conta foi criada com sucesso!',
-    //   description: 'Agora é só fazer login na nossa plataforma',
-    //   icon: {name: 'checkRound', color: 'success'},
-    // });
+    reset({
+      title: 'Sua conta foi criada com sucesso!',
+      description: 'Agora é só fazer login na nossa plataforma',
+      icon: {name: 'checkRound', color: 'success'},
+    });
   }
   return (
     <Screen canGoBack scrollable>

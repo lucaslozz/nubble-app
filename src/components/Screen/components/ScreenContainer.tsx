@@ -1,3 +1,4 @@
+import React from 'react';
 import {ScrollView, View} from 'react-native';
 
 interface ContainerProps {
@@ -6,7 +7,15 @@ interface ContainerProps {
 }
 
 export function ViewContainer({children, backgroundColor}: ContainerProps) {
-  return <View style={{backgroundColor, flex: 1}}>{children}</View>;
+  return (
+    <View
+      style={{
+        backgroundColor,
+        flex: 1,
+      }}>
+      {children}
+    </View>
+  );
 }
 
 export function ScrollViewContainer({
