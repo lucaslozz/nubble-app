@@ -1,11 +1,5 @@
 {
-  "cSpell.words": [
-    "conta",
-    "Criar",
-    "Digite",
-    "Entrar",
-    "Esqueci",
-    "minha",
-    "senha"
-  ]
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
 }
