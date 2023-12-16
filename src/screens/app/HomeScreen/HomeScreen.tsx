@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {AppScreenProps} from 'src/@types/navigation';
+import {AppScreenProps} from '@types';
 
 import {Button, Screen, Text} from '@components';
 
