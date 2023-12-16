@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useForm} from 'react-hook-form';
+import {AuthScreenProps} from 'src/@types/navigation';
 
 import {
   Button,
@@ -11,14 +11,11 @@ import {
   Text,
 } from '@components';
 import {useResetNavigationSuccess} from '@hooks';
-import {RootStackParamList} from '@routes';
 
 import {SignUpSchemaType} from './signUpSchema';
 
-type ScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUpScreen'>;
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function SignUpScreen({navigation}: ScreenProps) {
+export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   const {control, handleSubmit} = useForm<SignUpSchemaType>({
     mode: 'onChange',
     defaultValues: {email: '', fullName: '', userName: '', password: ''},
