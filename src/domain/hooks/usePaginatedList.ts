@@ -5,7 +5,7 @@ import {Page} from '@types';
 export function usePaginatedList<Data>(
   getList: (page: number) => Promise<Page<Data>>,
 ) {
-  const [postList, setPostList] = useState<Data[]>([]);
+  const [list, setList] = useState<Data[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
   const [page, setPage] = useState(1);
@@ -16,7 +16,7 @@ export function usePaginatedList<Data>(
       setError(null);
       setLoading(true);
       const {data, meta} = await getList(1);
-      setPostList(data);
+      setList(data);
       if (meta.hasNextPage) {
         setPage(2);
         setHasNextPage(true);
@@ -24,7 +24,6 @@ export function usePaginatedList<Data>(
         setHasNextPage(false);
       }
     } catch (error) {
-      console.log('ERROR', error);
       setError(error);
     } finally {
       setLoading(false);
@@ -39,14 +38,13 @@ export function usePaginatedList<Data>(
     try {
       setLoading(true);
       const {data, meta} = await getList(page);
-      setPostList(prev => [...prev, ...data]);
+      setList(prev => [...prev, ...data]);
       if (meta.hasNextPage) {
         setPage(prev => prev + 1);
       } else {
         setHasNextPage(false);
       }
     } catch (error) {
-      console.log('ERROR', error);
       setError(error);
     } finally {
       setLoading(false);
@@ -57,5 +55,5 @@ export function usePaginatedList<Data>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return {loading, error, postList, refresh: fetchInitialData, fetchNextPage};
+  return {loading, error, list, refresh: fetchInitialData, fetchNextPage};
 }
