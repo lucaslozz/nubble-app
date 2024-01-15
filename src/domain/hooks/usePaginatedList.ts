@@ -55,5 +55,12 @@ export function usePaginatedList<Data>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return {loading, error, list, refresh: fetchInitialData, fetchNextPage};
+  return {
+    loading,
+    error,
+    list,
+    refresh: fetchInitialData,
+    fetchNextPage,
+    hasNextPage,
+  };
 }
