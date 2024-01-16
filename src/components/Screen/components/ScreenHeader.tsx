@@ -16,7 +16,7 @@ export function ScreenHeader({canGoBack, title}: ScreenHeaderProps) {
       alignItems="center"
       justifyContent="space-between"
       flexDirection="row"
-      mb="s24">
+      mb={canGoBack || title ? 's24' : undefined}>
       {canGoBack && (
         <TouchableOpacityBox
           flexDirection="row"
