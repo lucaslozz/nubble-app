@@ -13,7 +13,10 @@ export function PostBottom({author, commentCount, text, id}: PostBottomProps) {
   const navigate = useNavigation();
 
   function navigateToPostCommentScreen() {
-    navigate.navigate('PostCommentScreen', {postId: id});
+    navigate.navigate('PostCommentScreen', {
+      postId: id,
+      postAuthorId: author.id,
+    });
   }
   return (
     <Box mt="s16">

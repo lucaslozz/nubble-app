@@ -23,7 +23,14 @@ export function PostCommentScreen({
   const {bottom} = useAppSafeArea();
 
   function renderItem({item}: ListRenderItemInfo<PostComment>) {
-    return <PostCommentItem postComment={item} />;
+    return (
+      <PostCommentItem
+        postComment={item}
+        onRemoveComment={refresh}
+        userId={1}
+        postAuthorId={route.params.postAuthorId}
+      />
+    );
   }
 
   return (
