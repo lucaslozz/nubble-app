@@ -5,22 +5,27 @@ import {usePostCommentCreate} from '@domain';
 
 interface PostCommentTextMessageProps {
   postId: number;
+  onAddComment: () => void;
 }
 
 import {TextMessage} from '@components';
 
-export function PostCommentTextMessage({postId}: PostCommentTextMessageProps) {
-  const {createComment} = usePostCommentCreate(postId);
-
+export function PostCommentTextMessage({
+  postId,
+  onAddComment,
+}: PostCommentTextMessageProps) {
   const [message, setMessage] = useState('');
-  function onPressSend() {
-    createComment(message);
-    setMessage('');
-    Keyboard.dismiss();
-  }
+  const {createComment} = usePostCommentCreate(postId, {
+    onSuccess: () => {
+      onAddComment();
+      setMessage('');
+      Keyboard.dismiss();
+    },
+  });
+
   return (
     <TextMessage
-      onPressSend={onPressSend}
+      onPressSend={createComment}
       value={message}
       onChangeText={setMessage}
     />

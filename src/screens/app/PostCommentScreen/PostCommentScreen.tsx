@@ -16,7 +16,7 @@ import {
 export function PostCommentScreen({
   route,
 }: AppScreenProps<'PostCommentScreen'>) {
-  const {list, fetchNextPage, hasNextPage} = usePostCommentList(
+  const {list, fetchNextPage, hasNextPage, refresh} = usePostCommentList(
     route.params.postId,
   );
 
@@ -42,7 +42,10 @@ export function PostCommentScreen({
             />
           }
         />
-        <PostCommentTextMessage postId={route.params.postId} />
+        <PostCommentTextMessage
+          postId={route.params.postId}
+          onAddComment={refresh}
+        />
       </Box>
     </Screen>
   );
