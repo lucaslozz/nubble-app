@@ -20,3 +20,4 @@ export * from './PostItem/PostItem';
 export * from './PostItem/components/PostHeader';
 export * from './ProfileAvatar/ProfileAvatar';
 export * from './TextMessage/TextMessage';
+export * from './Toast/Toast';
