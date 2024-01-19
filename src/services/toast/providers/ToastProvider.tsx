@@ -15,11 +15,11 @@ export function ToastProvider({children}: PropsWithChildren<{}>) {
     setToast(_toast);
   }
 
-  function hiddenToast() {
+  function hideToast() {
     setToast(null);
   }
   return (
-    <ToastContext.Provider value={{toast, hideToast: hiddenToast, showToast}}>
+    <ToastContext.Provider value={{toast, hideToast: hideToast, showToast}}>
       {children}
     </ToastContext.Provider>
   );
