@@ -4,3 +4,5 @@ export * from './Post/useCases/usePostList';
 
 export * from './PostComment';
 export * from './PostComment/useCases/usePostCommentCreate';
+
+export * from './User';

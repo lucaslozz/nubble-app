@@ -47,7 +47,7 @@ export function PostCommentItem({
   return (
     <Pressable onLongPress={confirmRemove} disabled={!isAlowToDelete}>
       <Box flexDirection="row" alignItems="center" gap="s12" mb="s16">
-        <ProfileAvatar imageUrl={postComment.author.profileURL} />
+        <ProfileAvatar imageURL={postComment.author.profileURL} />
         <Box flex={1}>
           <Text preset="paragraphSmall" bold>
             {postComment.author.userName}
