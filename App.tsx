@@ -14,16 +14,20 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <SafeAreaProvider>
-      <ThemeProvider theme={theme}>
-        <ToastProvider>
-          <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaProvider>
+        <ThemeProvider theme={theme}>
+          <ToastProvider>
+            {/* Only use ToastProvider if it is using Context implementation.
+          Zustand implementation doesn't need a provider */}
+            {/* <ToastProvider> */}
             <Router />
             <Toast />
-          </QueryClientProvider>
-        </ToastProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+            {/* </ToastProvider> */}
+          </ToastProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
 
