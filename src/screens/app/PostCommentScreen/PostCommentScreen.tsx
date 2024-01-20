@@ -27,8 +27,8 @@ export function PostCommentScreen({
       <PostCommentItem
         postComment={item}
         onRemoveComment={refresh}
-        userId={1}
         postAuthorId={route.params.postAuthorId}
+        userId={1}
       />
     );
   }
