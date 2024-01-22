@@ -6,3 +6,4 @@ export * from './PostComment';
 export * from './PostComment/useCases/usePostCommentCreate';
 
 export * from './User';
+export * from './Auth';
