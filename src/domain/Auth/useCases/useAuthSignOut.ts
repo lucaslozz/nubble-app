@@ -8,7 +8,7 @@ export function useAuthSignOut() {
   const mutation = useMutation<string, unknown, void>({
     mutationFn: authService.signOut,
     retry: false,
-    onSuccess: async () => removeCredentials(),
+    onSuccess: removeCredentials,
   });
 
   return {
