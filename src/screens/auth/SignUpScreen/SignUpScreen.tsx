@@ -38,13 +38,20 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
       reset(resetParam);
     },
   });
-  const {control, handleSubmit, watch} = useForm<SignUpSchemaType>({
-    mode: 'onChange',
-    defaultValues,
-  });
+  const {control, handleSubmit, watch, getFieldState, formState} =
+    useForm<SignUpSchemaType>({
+      mode: 'onChange',
+      defaultValues,
+    });
 
+  const username = watch('username');
+  const usernameState = getFieldState('username');
+  const usernameIsValid = !usernameState.invalid && usernameState.isDirty;
+
+  console.log(usernameIsValid);
   const usernameQuery = useAuthIsUsernameAvailable({
-    username: watch('username'),
+    username,
+    enabled: usernameIsValid,
   });
   const {reset} = useResetNavigationSuccess();
   function submitForm(formValues: SignUpSchemaType) {
@@ -60,6 +67,11 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         control={control}
         name="username"
         rules={{required: 'O nome de usuário é obrigatorio'}}
+        errorMessage={
+          usernameQuery.isUnavailable
+            ? 'nome de usuário indisponível'
+            : undefined
+        }
         label="Seu username"
         placeholder="@"
         boxProps={{mb: 's20'}}
@@ -110,7 +122,11 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
       <Button
         title="Criar uma conta"
         onPress={handleSubmit(submitForm)}
-        disabled={isLoading}
+        disabled={
+          !formState.isValid ||
+          usernameQuery.isFetching ||
+          usernameQuery.isUnavailable
+        }
         loading={isLoading}
       />
     </Screen>
