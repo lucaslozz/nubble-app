@@ -26,10 +26,4 @@ export interface SignUpDataAPI {
   email: string;
   password: string;
 }
-export interface SignUpData {
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  password: string;
-}
+export interface SignUpData extends SignUpDataAPI {}
