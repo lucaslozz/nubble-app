@@ -1,10 +1,11 @@
 import React from 'react';
 
-import {useAuthSignUp} from '@domain';
+import {useAuthIsUsernameAvailable, useAuthSignUp} from '@domain';
 import {AuthScreenProps} from '@types';
 import {useForm} from 'react-hook-form';
 
 import {
+  ActivityIndicator,
   Button,
   FormPasswordTextInput,
   FormTextInput,
@@ -37,11 +38,14 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
       reset(resetParam);
     },
   });
-  const {control, handleSubmit} = useForm<SignUpSchemaType>({
+  const {control, handleSubmit, watch} = useForm<SignUpSchemaType>({
     mode: 'onChange',
     defaultValues,
   });
 
+  const usernameQuery = useAuthIsUsernameAvailable({
+    username: watch('username'),
+  });
   const {reset} = useResetNavigationSuccess();
   function submitForm(formValues: SignUpSchemaType) {
     signUp(formValues);
@@ -59,6 +63,11 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         label="Seu username"
         placeholder="@"
         boxProps={{mb: 's20'}}
+        RightComponent={
+          usernameQuery.isFetching ? (
+            <ActivityIndicator size="small" />
+          ) : undefined
+        }
       />
 
       <FormTextInput

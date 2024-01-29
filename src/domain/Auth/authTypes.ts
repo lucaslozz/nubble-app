@@ -26,4 +26,9 @@ export interface SignUpDataAPI {
   email: string;
   password: string;
 }
+
+export interface FieldIsAvailableAPI {
+  message: string;
+  isAvailable: boolean;
+}
 export interface SignUpData extends SignUpDataAPI {}
