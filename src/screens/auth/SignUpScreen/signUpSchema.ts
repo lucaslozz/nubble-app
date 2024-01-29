@@ -4,7 +4,7 @@ import {z} from 'zod';
 const userNameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim;
 
 export const signUpSchema = z.object({
-  userName: z
+  username: z
     .string()
     .trim()
     .regex(userNameRegex, 'nome de usuário inválido')

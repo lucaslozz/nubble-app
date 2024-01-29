@@ -1,7 +1,8 @@
 import React from 'react';
 
+import {useAuthSignUp} from '@domain';
+import {AuthScreenProps} from '@types';
 import {useForm} from 'react-hook-form';
-import {AuthScreenProps} from 'src/@types/navigation';
 
 import {
   Button,
@@ -11,30 +12,39 @@ import {
   Text,
 } from '@components';
 import {useResetNavigationSuccess} from '@hooks';
+import {AuthStackParamList} from '@routes';
 
 import {SignUpSchemaType} from './signUpSchema';
 
+const resetParam: AuthStackParamList['SuccessScreen'] = {
+  title: 'Sua conta foi criada com sucesso!',
+  description: 'Agora é só fazer login na nossa plataforma',
+  icon: {name: 'checkRound', color: 'success'},
+};
+
+const defaultValues: SignUpSchemaType = {
+  email: '',
+  firstName: '',
+  lastName: '',
+  username: '',
+  password: '',
+};
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
+  const {isLoading, signUp} = useAuthSignUp({
+    onSuccess: () => {
+      reset(resetParam);
+    },
+  });
   const {control, handleSubmit} = useForm<SignUpSchemaType>({
     mode: 'onChange',
-    defaultValues: {
-      email: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-    },
+    defaultValues,
   });
 
   const {reset} = useResetNavigationSuccess();
   function submitForm(formValues: SignUpSchemaType) {
-    console.log({...formValues});
-    reset({
-      title: 'Sua conta foi criada com sucesso!',
-      description: 'Agora é só fazer login na nossa plataforma',
-      icon: {name: 'checkRound', color: 'success'},
-    });
+    signUp(formValues);
   }
   return (
     <Screen canGoBack scrollable>
@@ -44,7 +54,7 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
 
       <FormTextInput
         control={control}
-        name="userName"
+        name="username"
         rules={{required: 'O nome de usuário é obrigatorio'}}
         label="Seu username"
         placeholder="@"
@@ -91,7 +101,8 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
       <Button
         title="Criar uma conta"
         onPress={handleSubmit(submitForm)}
-        // disabled={!formState.isValid}
+        disabled={isLoading}
+        loading={isLoading}
       />
     </Screen>
   );
