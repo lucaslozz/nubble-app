@@ -18,7 +18,13 @@ import {SignUpSchemaType} from './signUpSchema';
 export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   const {control, handleSubmit} = useForm<SignUpSchemaType>({
     mode: 'onChange',
-    defaultValues: {email: '', fullName: '', userName: '', password: ''},
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+    },
   });
 
   const {reset} = useResetNavigationSuccess();
@@ -47,11 +53,20 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
 
       <FormTextInput
         control={control}
-        name="fullName"
-        rules={{required: 'O nome completo é obrigatorio'}}
+        name="firstName"
+        rules={{required: 'O nome é obrigatorio'}}
         autoCapitalize="words"
-        label="Nome completo"
-        placeholder="Digite o seu nome completo"
+        label="Nome"
+        placeholder="Digite seu nome"
+        boxProps={{mb: 's20'}}
+      />
+      <FormTextInput
+        control={control}
+        name="lastName"
+        rules={{required: 'O sobrenome é obrigatorio'}}
+        autoCapitalize="words"
+        label="Sobrenome"
+        placeholder="Digite seu sobrenome"
         boxProps={{mb: 's20'}}
       />
 
