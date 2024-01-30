@@ -32,3 +32,7 @@ export interface FieldIsAvailableAPI {
   isAvailable: boolean;
 }
 export interface SignUpData extends SignUpDataAPI {}
+
+export interface ForgotPasswordParam {
+  email: string;
+}
