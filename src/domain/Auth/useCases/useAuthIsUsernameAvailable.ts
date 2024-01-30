@@ -11,7 +11,7 @@ interface Param {
 }
 
 export function useAuthIsUsernameAvailable({username, enabled}: Param) {
-  const debouncedUsername = useDebounce(username);
+  const debouncedUsername = useDebounce(username, 1500);
   const {data, isFetching} = useQuery({
     retry: false,
     queryKey: [QueryKeys.isUserNameAvailable, debouncedUsername],

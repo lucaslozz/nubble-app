@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useAuthIsUsernameAvailable, useAuthSignUp} from '@domain';
+import {zodResolver} from '@hookform/resolvers/zod';
 import {AuthScreenProps} from '@types';
 import {useForm} from 'react-hook-form';
 
@@ -15,7 +16,7 @@ import {
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthStackParamList} from '@routes';
 
-import {SignUpSchemaType} from './signUpSchema';
+import {SignUpSchemaType, signUpSchema} from './signUpSchema';
 
 const resetParam: AuthStackParamList['SuccessScreen'] = {
   title: 'Sua conta foi criada com sucesso!',
@@ -40,23 +41,24 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
   });
   const {control, handleSubmit, watch, getFieldState, formState} =
     useForm<SignUpSchemaType>({
-      mode: 'onChange',
       defaultValues,
+      mode: 'onChange',
+      resolver: zodResolver(signUpSchema),
     });
+
+  const {reset} = useResetNavigationSuccess();
+  function submitForm(formValues: SignUpSchemaType) {
+    signUp(formValues);
+  }
 
   const username = watch('username');
   const usernameState = getFieldState('username');
   const usernameIsValid = !usernameState.invalid && usernameState.isDirty;
 
-  console.log(usernameIsValid);
   const usernameQuery = useAuthIsUsernameAvailable({
     username,
     enabled: usernameIsValid,
   });
-  const {reset} = useResetNavigationSuccess();
-  function submitForm(formValues: SignUpSchemaType) {
-    signUp(formValues);
-  }
   return (
     <Screen canGoBack scrollable>
       <Text preset="headingLarge" mb="s32">
@@ -66,7 +68,7 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
       <FormTextInput
         control={control}
         name="username"
-        rules={{required: 'O nome de usuário é obrigatorio'}}
+        rules={{required: 'Nome de usuário é obrigatorio.'}}
         errorMessage={
           usernameQuery.isUnavailable
             ? 'nome de usuário indisponível'

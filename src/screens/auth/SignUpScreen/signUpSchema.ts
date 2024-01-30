@@ -6,8 +6,8 @@ const userNameRegex = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{5,29}$/gim;
 export const signUpSchema = z.object({
   username: z
     .string()
-    .min(5, 'username muito curto')
-    .regex(userNameRegex, 'username inválido')
+    .min(5, 'Nome de usuário muito curto')
+    .regex(userNameRegex, 'Nome de usuário inválido.')
     .toLowerCase(),
   firstName: z
     .string()
