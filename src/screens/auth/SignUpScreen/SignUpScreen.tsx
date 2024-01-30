@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useAuthIsUsernameAvailable, useAuthSignUp} from '@domain';
+import {useAuthSignUp} from '@domain';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {AuthScreenProps} from '@types';
 import {useForm} from 'react-hook-form';
@@ -16,6 +16,7 @@ import {
 import {useResetNavigationSuccess} from '@hooks';
 import {AuthStackParamList} from '@routes';
 
+import {useAsyncValidation} from './hooks/useAsyncValidation';
 import {SignUpSchemaType, signUpSchema} from './signUpSchema';
 
 const resetParam: AuthStackParamList['SuccessScreen'] = {
@@ -51,14 +52,11 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
     signUp(formValues);
   }
 
-  const username = watch('username');
-  const usernameState = getFieldState('username');
-  const usernameIsValid = !usernameState.invalid && usernameState.isDirty;
-
-  const usernameQuery = useAuthIsUsernameAvailable({
-    username,
-    enabled: usernameIsValid,
+  const {usernameValidation, emailValidation} = useAsyncValidation({
+    watch,
+    getFieldState,
   });
+
   return (
     <Screen canGoBack scrollable>
       <Text preset="headingLarge" mb="s32">
@@ -70,7 +68,7 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         name="username"
         rules={{required: 'Nome de usuário é obrigatorio.'}}
         errorMessage={
-          usernameQuery.isUnavailable
+          usernameValidation.notReady
             ? 'nome de usuário indisponível'
             : undefined
         }
@@ -78,7 +76,7 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         placeholder="@"
         boxProps={{mb: 's20'}}
         RightComponent={
-          usernameQuery.isFetching ? (
+          usernameValidation.isFetching ? (
             <ActivityIndicator size="small" />
           ) : undefined
         }
@@ -107,8 +105,16 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         control={control}
         name="email"
         rules={{required: 'O email é obrigatorio'}}
+        errorMessage={
+          emailValidation.notReady ? 'E-mail indisponível' : undefined
+        }
         label="E-mail"
         placeholder="Digite o seu e-mail"
+        RightComponent={
+          emailValidation.isFetching ? (
+            <ActivityIndicator size="small" />
+          ) : undefined
+        }
         boxProps={{mb: 's20'}}
       />
 
@@ -126,8 +132,8 @@ export function SignUpScreen({navigation}: AuthScreenProps<'SignUpScreen'>) {
         onPress={handleSubmit(submitForm)}
         disabled={
           !formState.isValid ||
-          usernameQuery.isFetching ||
-          usernameQuery.isUnavailable
+          usernameValidation.notReady ||
+          emailValidation.notReady
         }
         loading={isLoading}
       />
