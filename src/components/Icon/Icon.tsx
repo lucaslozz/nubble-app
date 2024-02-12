@@ -58,7 +58,7 @@ export function Icon({
 
   if (onPress) {
     return (
-      <Pressable hitSlop={16} onPress={onPress}>
+      <Pressable testID={name} hitSlop={16} onPress={onPress}>
         <SVGIcon color={colors[color]} size={size} />
       </Pressable>
     );
@@ -67,6 +67,7 @@ export function Icon({
   return <SVGIcon color={colors[color]} size={size} />;
 }
 
+//todo: criar um enum
 const iconRegistry = {
   arrowLeft: ArrowLeftIcon,
   arrowRight: ArrowRightIcon,
