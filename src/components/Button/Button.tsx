@@ -11,7 +11,7 @@ import {buttonPresets} from './buttonPresets';
 
 export type ButtonPreset = 'primary' | 'outline';
 
-interface ButtonProps extends TouchableOpacityBoxProps {
+export interface ButtonProps extends TouchableOpacityBoxProps {
   title: string;
   loading?: boolean;
   preset?: ButtonPreset;
@@ -29,6 +29,7 @@ export function Button({
   return (
     <TouchableOpacityBox
       disabled={disabled || loading}
+      testID="button-element"
       paddingHorizontal="s20"
       height={50}
       alignItems="center"
