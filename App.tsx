@@ -3,7 +3,6 @@ import React from 'react';
 import {
   AuthCredentialsProvider,
   MMKVStorage,
-  ToastProvider,
   initializeStorage,
 } from '@services';
 import {ThemeProvider} from '@shopify/restyle';
@@ -25,14 +24,12 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <SafeAreaProvider>
           <ThemeProvider theme={theme}>
-            <ToastProvider>
-              {/* Only use ToastProvider if it is using Context implementation.
+            {/* Only use ToastProvider if it is using Context implementation.
           Zustand implementation doesn't need a provider */}
-              {/* <ToastProvider> */}
-              <Router />
-              <Toast />
-              {/* </ToastProvider> */}
-            </ToastProvider>
+            {/* <ToastProvider> */}
+            <Router />
+            <Toast />
+            {/* </ToastProvider> */}
           </ThemeProvider>
         </SafeAreaProvider>
       </QueryClientProvider>
