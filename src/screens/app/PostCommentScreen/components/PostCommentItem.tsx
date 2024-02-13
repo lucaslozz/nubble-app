@@ -44,7 +44,10 @@ export function PostCommentItem({
     ]);
   }
   return (
-    <Pressable onLongPress={confirmRemove} disabled={!isAlowToDelete}>
+    <Pressable
+      testID="post-comment-id"
+      onLongPress={confirmRemove}
+      disabled={!isAlowToDelete}>
       <Box flexDirection="row" alignItems="center" gap="s12" mb="s16">
         <ProfileAvatar imageURL={postComment.author.profileURL} />
         <Box flex={1}>

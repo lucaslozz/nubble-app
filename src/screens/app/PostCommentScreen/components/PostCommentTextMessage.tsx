@@ -20,6 +20,7 @@ export function PostCommentTextMessage({postId}: PostCommentTextMessageProps) {
 
   return (
     <TextMessage
+      placeholder="Adicione um comentário"
       onPressSend={createComment}
       value={message}
       onChangeText={setMessage}
