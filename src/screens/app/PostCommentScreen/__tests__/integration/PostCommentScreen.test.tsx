@@ -1,11 +1,18 @@
 import React from 'react';
 
-import {renderScreen} from 'test-utils';
+import {server} from '@test';
+import {renderScreen, screen} from 'test-utils';
 
 import {PostCommentScreen} from '../../PostCommentScreen';
 
+beforeAll(() => server.listen());
+
+afterEach(() => server.resetHandlers());
+
+afterAll(() => server.close());
+
 describe('integration: PostCommentScreen', () => {
-  it('should update the list when a new comment is added', () => {
+  it('should update the list when a new comment is added', async () => {
     renderScreen(
       <PostCommentScreen
         navigation={{} as any}
@@ -19,5 +26,8 @@ describe('integration: PostCommentScreen', () => {
         }}
       />,
     );
+    const comment = await screen.findByText(/comentário aleatório/i);
+
+    expect(comment).toBeOnTheScreen();
   });
 });
