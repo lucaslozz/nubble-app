@@ -2,7 +2,11 @@ import React, {ReactElement, ReactNode} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {ThemeProvider} from '@shopify/restyle';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientConfig,
+  QueryClientProvider,
+} from '@tanstack/react-query';
 import {
   render,
   RenderOptions,
@@ -12,7 +16,27 @@ import {
 
 import {theme} from '@theme';
 
-export const wrapperAllTheProviders = () => {
+const queryClientConfig: QueryClientConfig = {
+  logger: {
+    log: console.log,
+    warn: console.warn,
+    // ✅ no more errors on the console for tests
+    //@ts-ignore
+    error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
+  },
+  defaultOptions: {
+    queries: {
+      retry: false,
+      cacheTime: Infinity,
+    },
+    mutations: {
+      retry: false,
+      cacheTime: Infinity,
+    },
+  },
+};
+
+export const wrapAllTheProviders = () => {
   const queryClient = new QueryClient({
     logger: {
       log: console.log,
@@ -38,7 +62,7 @@ function customRender<T>(
   component: ReactElement<T>,
   options?: Omit<RenderOptions, 'wrapper'>,
 ) {
-  return render(component, {wrapper: wrapperAllTheProviders(), ...options});
+  return render(component, {wrapper: wrapAllTheProviders(), ...options});
 }
 
 function customRenderHook<Result, Props>(
@@ -46,9 +70,28 @@ function customRenderHook<Result, Props>(
   options?: Omit<RenderHookOptions<Props>, 'wrapper'>,
 ) {
   return renderHook(renderCallback, {
-    wrapper: wrapperAllTheProviders(),
+    wrapper: wrapAllTheProviders(),
     ...options,
   });
+}
+
+export const wrapScreenProviders = () => {
+  const queryClient = new QueryClient(queryClientConfig);
+
+  return ({children}: {children: React.ReactNode}) => (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>{children} </NavigationContainer>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
+
+export function renderScreen<T = unknown>(
+  component: ReactElement<T>,
+  options?: Omit<RenderOptions, 'wrapper'>,
+) {
+  return render(component, {wrapper: wrapScreenProviders(), ...options});
 }
 
 export * from '@testing-library/react-native';
