@@ -4,7 +4,15 @@ import {http, HttpResponse} from 'msw';
 
 import {mockedData} from './mocks';
 
-let inMemoryResponse = {...mockedData.mockedPostCommentResponse};
+let inMemoryResponse = JSON.parse(
+  JSON.stringify({...mockedData.mockedPostCommentResponse}),
+) as PageAPI<PostCommentAPI>;
+
+export function resetInMemoryResponse() {
+  inMemoryResponse = JSON.parse(
+    JSON.stringify({...mockedData.mockedPostCommentResponse}),
+  ) as PageAPI<PostCommentAPI>;
+}
 
 const FULL_URL = BASE_URL + POST_COMMENT_PATH;
 export const postCommentHandlers = [
@@ -49,7 +57,7 @@ export const postCommentHandlers = [
         total: inMemoryResponse.meta.total - 1,
       };
 
-      HttpResponse.json({message: 'removed'}, {status: 200});
+      return HttpResponse.json({message: 'removed'}, {status: 200});
     },
   ),
 ];

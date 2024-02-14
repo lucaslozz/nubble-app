@@ -1,5 +1,10 @@
 import {setupServer} from 'msw/node';
 
-import {postCommentHandlers} from './PostComment/postCommentHandlers';
+import {
+  postCommentHandlers,
+  resetInMemoryResponse,
+} from './PostComment/postCommentHandlers';
 
 export const server = setupServer(...postCommentHandlers);
+
+export {resetInMemoryResponse};

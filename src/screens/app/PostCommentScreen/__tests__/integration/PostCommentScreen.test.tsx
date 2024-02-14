@@ -1,13 +1,23 @@
 import React from 'react';
+import {Alert, AlertButton} from 'react-native';
 
-import {server} from '@test';
-import {fireEvent, renderScreen, screen} from 'test-utils';
+import {authCredentialsStorage} from '@services';
+import {server, mockedData, resetInMemoryResponse} from '@test';
+import {
+  fireEvent,
+  renderScreen,
+  screen,
+  waitForElementToBeRemoved,
+} from 'test-utils';
 
 import {PostCommentScreen} from '../../PostCommentScreen';
 
 beforeAll(() => server.listen());
 
-afterEach(() => server.resetHandlers());
+afterEach(() => {
+  server.resetHandlers();
+  resetInMemoryResponse();
+});
 
 afterAll(() => server.close());
 
@@ -38,10 +48,24 @@ describe('integration: PostCommentScreen', () => {
 
     const comments = await screen.findAllByTestId('post-comment-id');
 
-    expect(comments.length).toBe(2);
+    expect(comments.length).toBe(3);
   });
 
   it('updates the list automatically and shows the toast message, when a comment is deleted', async () => {
+    jest
+      .spyOn(authCredentialsStorage, 'get')
+      .mockResolvedValue(mockedData.mateusAuthCredentials);
+
+    let mockedConfirm: AlertButton['onPress'];
+
+    const mockedAlert = jest
+      .spyOn(Alert, 'alert')
+      .mockImplementation((title, message, buttons) => {
+        if (buttons && buttons[0]) {
+          mockedConfirm = buttons[0].onPress;
+        }
+      });
+
     renderScreen(
       <PostCommentScreen
         navigation={{} as any}
@@ -55,5 +79,23 @@ describe('integration: PostCommentScreen', () => {
         }}
       />,
     );
+
+    const comment = await screen.findByText(
+      mockedData.mateusPostCommentAPI.message,
+      {exact: false},
+    );
+
+    fireEvent(comment, 'longPress');
+
+    mockedConfirm && mockedConfirm();
+
+    expect(comment).toBeOnTheScreen();
+    expect(mockedAlert).toHaveBeenCalled();
+    await waitForElementToBeRemoved(() =>
+      screen.getByText(mockedData.mateusPostCommentAPI.message, {exact: false}),
+    );
+
+    const comments = await screen.findAllByTestId('post-comment-id');
+    expect(comments.length).toBe(1);
   });
 });
