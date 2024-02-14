@@ -40,4 +40,20 @@ describe('integration: PostCommentScreen', () => {
 
     expect(comments.length).toBe(2);
   });
+
+  it('updates the list automatically and shows the toast message, when a comment is deleted', async () => {
+    renderScreen(
+      <PostCommentScreen
+        navigation={{} as any}
+        route={{
+          name: 'PostCommentScreen',
+          key: 'PostCommentScreen',
+          params: {
+            postId: 1,
+            postAuthorId: 1,
+          },
+        }}
+      />,
+    );
+  });
 });
