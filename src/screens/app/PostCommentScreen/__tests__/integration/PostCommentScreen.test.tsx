@@ -4,22 +4,31 @@ import {Alert, AlertButton} from 'react-native';
 import {authCredentialsStorage} from '@services';
 import {server, mockedData, resetInMemoryResponse} from '@test';
 import {
+  act,
   fireEvent,
   renderScreen,
   screen,
+  waitFor,
   waitForElementToBeRemoved,
 } from 'test-utils';
 
 import {PostCommentScreen} from '../../PostCommentScreen';
 
-beforeAll(() => server.listen());
+beforeAll(() => {
+  server.listen();
+  jest.useFakeTimers();
+});
 
 afterEach(() => {
   server.resetHandlers();
   resetInMemoryResponse();
 });
 
-afterAll(() => server.close());
+afterAll(() => {
+  server.close();
+  jest.resetAllMocks();
+  jest.useRealTimers();
+});
 
 describe('integration: PostCommentScreen', () => {
   it('should update the list when a new comment is added', async () => {
@@ -97,5 +106,13 @@ describe('integration: PostCommentScreen', () => {
 
     const comments = await screen.findAllByTestId('post-comment-id');
     expect(comments.length).toBe(1);
+
+    await waitFor(() =>
+      expect(screen.getByTestId('toast-message')).toBeOnTheScreen(),
+    );
+
+    act(() => jest.runAllTimers());
+
+    expect(screen.queryByTestId('toast-message')).not.toBeOnTheScreen();
   });
 });
