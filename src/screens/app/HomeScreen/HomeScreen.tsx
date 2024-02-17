@@ -31,7 +31,7 @@ export function HomeScreen({navigation}: AppTabScreenProps<'HomeScreen'>) {
   useScrollToTop(flatListRef);
 
   function renderItem({item}: ListRenderItemInfo<Post>) {
-    return <PostItem post={item} />;
+    return <PostItem key={item.id} post={item} />;
   }
 
   return (
